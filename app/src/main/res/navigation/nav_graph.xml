@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dailyActivityFragment">
+
+    <fragment
+        android:id="@+id/dailyActivityFragment"
+        android:name="com.ybdev.appnextdaily.views.DailyFragment"
+        android:label="fragment_daily_activity"
+        tools:layout="@layout/fragment_daily" >
+        <action
+            android:id="@+id/action_dailyActivityFragment_to_timelineFragment"
+            app:destination="@id/timelineFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/timelineFragment"
+        android:name="com.ybdev.appnextdaily.views.TimelineFragment"
+        android:label="fragment_timeline"
+        tools:layout="@layout/fragment_timeline" />
+</navigation>
