@@ -1,10 +1,10 @@
 package com.ybdev.appnextdaily.views
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -12,8 +12,8 @@ import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.ybdev.appnextdaily.R
-import com.ybdev.appnextdaily.UIState
 import com.ybdev.appnextdaily.SharedViewModel
+import com.ybdev.appnextdaily.UIState
 import com.ybdev.appnextdaily.databinding.FragmentDailyBinding
 import com.ybdev.appnextdaily.model.WeeklyDataModel
 import com.ybdev.appnextdaily.repository.remote.toWeeklyDataModel
@@ -74,12 +74,12 @@ class DailyFragment : Fragment() {
     private fun showSuccessState(respond: WeeklyDataModel) {
         binding.dailyFragmentUiGroup.visibility = View.VISIBLE
         stopProgressBar()
-        val a = ChartLogicImplementation(respond, requireContext())
+        val logic = ChartLogicImplementation(respond, requireContext())
         binding.dailyFragmentChart.apply {
-            data = a.getBarData()
+            data = logic.getBarData()
             isDragEnabled = true
-            val barSpace = 0.03f
-            val groundSpace = 0.3f
+
+            val groundSpace = 0.35f
             data.barWidth = 0.3f
             xAxis.apply {
                 valueFormatter = IndexAxisValueFormatter(Constants.daysArray)
@@ -92,15 +92,19 @@ class DailyFragment : Fragment() {
                     axisMinimum = 0f
                     setDrawGridLines(false)
                     setDrawAxisLine(false)
+                    setDrawLabels(false)
                 }
                 axisRight.apply {
                     setDrawGridLines(false)
                     setDrawAxisLine(false)
+                    setDrawLabels(false)
                 }
                 setDrawAxisLine(false)
                 setDrawGridLines(false)
             }
-            groupBars(0f,groundSpace, barSpace)
+            groupBars(0f,groundSpace, 0F)
+            description.isEnabled = false
+            marker = logic.customMarker
             visibility = View.VISIBLE
             invalidate()
         }

@@ -11,12 +11,16 @@ import com.ybdev.appnextdaily.model.WeeklyDataModel
 class ChartLogicImplementation(weeklyDataModel: WeeklyDataModel,val  context: Context) {
 
     private val dailyGoalPair = Pair(ArrayList<BarEntry>(), ArrayList<BarEntry>())
+    var customMarker : CustomMarkerView? = null //(context, R.layout.custom_marker_view)
+    private val markerDataDisplay = mutableListOf<String>()
 
     init {
         weeklyDataModel.dailyItemList.forEachIndexed { index, item ->
             dailyGoalPair.first.add(BarEntry((index).toFloat(),item.dailyGoal.toFloat()))
             dailyGoalPair.second.add(BarEntry(((index)).toFloat(),item.dailyActivity.toFloat()))
+            markerDataDisplay.add("${item.dailyGoal}/${item.dailyActivity}")
         }
+        customMarker = CustomMarkerView(context, R.layout.custom_marker_view, markerDataDisplay)
     }
 
     fun getBarData(): BarData{
@@ -24,7 +28,7 @@ class ChartLogicImplementation(weeklyDataModel: WeeklyDataModel,val  context: Co
         barDataSet2.color =  ResourcesCompat.getColor(context.resources, R.color.green, null)
 
         val barDataSet1 = BarDataSet(dailyGoalPair.second,"Activity")
-        barDataSet1.color =  ResourcesCompat.getColor(context.resources, R.color.blue, null);
+        barDataSet1.color =  ResourcesCompat.getColor(context.resources, R.color.blue, null)
 
         return BarData(barDataSet1, barDataSet2)
     }
